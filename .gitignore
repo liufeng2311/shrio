@@ -1,0 +1,14 @@
+.idea
+target/
+.project
+.classpath
+.settings/
+*.iml
+.DS_Store
+.factorypath
+.apt_generated_tests/
+.mvn/
+.settings/
+mvnw.cmd
+mvnw
+HELP.md
