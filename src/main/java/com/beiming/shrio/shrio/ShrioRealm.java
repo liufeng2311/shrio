@@ -37,7 +37,7 @@ public class ShrioRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		// String string = principals.getPrimaryPrincipal().toString();
-
+		System.out.println("数据库查找权限信息");
 		//用户权限列表
 		Set<String> permsSet = new HashSet<String>();
 
@@ -49,13 +49,14 @@ public class ShrioRealm extends AuthorizingRealm {
 	//认证
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+		System.out.println("数据库查找认证信息");
 		String username = (String) token.getPrincipal();
 		User user = userMapper.getUserByUsername(username);
 		if(user == null) {
 			throw new IncorrectCredentialsException("登录已过期，请重新登录");
 		}
-		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(username, user.getPassword(), getName()); //getName获取的是relam的名字
-		info.setCredentialsSalt(ByteSource.Util.bytes("liufeng"));//为密码加将盐，实际项目应使用随机数，生成密码时将salt存入数据库，此处从数据库查出该用户的salt
+		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(username, username, getName()); //getName获取的是relam的名字
+		//info.setCredentialsSalt(ByteSource.Util.bytes("liufeng"));//为密码加将盐，实际项目应使用随机数，生成密码时将salt存入数据库，此处从数据库查出该用户的salt
 		return info;
 	}
 }
